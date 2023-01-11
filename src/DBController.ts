@@ -3,8 +3,9 @@ import { Client } from "pg";
 
 class DBController {
     async create(request: Request, response: Response){
+        const dataInicial = new Date().getTime();
         const client = new Client({
-            host:'142.93.124.123',
+            host:'localhost',
             port: 5432,
             database: 'postgres',
             password: 'docker',
@@ -12,8 +13,10 @@ class DBController {
         });
 
         await client.connect();
-        const data = await client.query('SELECT * FROM PHOTOS');
-        return response.json(data);
+        const { rows } = await client.query('SELECT * FROM TESTE');
+        const dataFinal = new Date().getTime();
+        console.log('tempo final ', (dataFinal - dataInicial));
+        return response.json(rows);
     }
 }
 
